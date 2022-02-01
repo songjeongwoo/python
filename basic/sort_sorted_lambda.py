@@ -14,7 +14,18 @@ sorted(iterable)
 sorted(iterable, key=function)
 sorted(iterable, key=function, reverse=True)
 
-# ex)
+# ex) 람다식 미사용
+array = [('홍길동', 50), ('이순신', 32), ('아무개', 74)]
+
+def my_key(x):
+    return x[1]
+
+print(sorted(array, key=my_key))
+'''
+[('이순신', 32), ('홍길동', 50), ('아무개', 74)]
+'''
+
+# ex) 람다식 사용
 array = [('홍길동', 50), ('이순신', 32), ('아무개', 74)]
 
 print(sorted(array, key=lambda x: x[1]))
