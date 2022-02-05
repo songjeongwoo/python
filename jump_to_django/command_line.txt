@@ -1,1 +1,148 @@
+## git cli
 
+- 현재 디렉토리에 저장소 생성
+git init
+
+- '폴더명' 폴더 생성 후 저장소 생성
+git init 폴더명
+
+- 커밋하지 않은 변경사항이 있는 지 확인 명령어
+*git status
+
+- add 명령어 (ex) example.txt)
+*git add example.txt
+
+- commit 명령어 (ex) commit message)
+*git commit -m "commit message"
+
+- 원격 저장소와 연결(ex) https://github.com/songjeongwoo/python.git)
+git remote add origin https://github.com/songjeongwoo/python.git
+cf) origin 말고 다른 이름으로 해도 된다. 이를 지울 때는 "git remote remove origin"을 사용한다.
+
+- 원격 저장소와 동기화
+git push -u origin master
+cf) u origin master 는 현재 지역저장소의 브랜치와 원격저장소의 브랜치를
+매칭시키는 옵션으로 한번만 해준다. 이후부터는 git push를 쓴다.
+
+- 원격 저장소 복제(ex) https://github.com/songjeongwoo/python.git)
+*git clone https://github.com/songjeongwoo/python.git
+
+- 원격 저장소 버전 받기
+*git pull
+
+- 버전 확인
+*git log
+
+- --online: 간결하게 한 줄로 표현, --all: 모든 브랜치, --graph: 브랜치의 분기를 시각적으로 표기
+*git log --oneline --al --graph
+
+- 시간여행 (ex) ab1234 - 버전(해시코드))
+*git checkout ab1234
+
+- master로 복귀
+*git checkout master
+
+* 브랜치 관련은 추후에
+
+
+## 기본 cli
+
+- 디렉토리 이동(ex) django)
+cd /
+cd django
+
+- 디렉토리 생성(ex) django)
+mkdir django
+
+
+## cf)
+Ctrl + Shift + P -> python: Select Interpreter -> Python 3.8.8 64-bit('base':conda)처럼 가상환경을 선택
+-> Ctrl + J - cmd 확인하면 "(base) C:\Users\User> "가 된다.
+
+- 가상환경 생성(ex) django)
+conda create -n django
+conda create --name django
+
+- 가상환경 활성화(ex) django)
+conda activate django
+cf) 목록에서는 안 보이지만 base에서 설치했던 라이브러리를 모두 갖고 만들어진다.
+
+- 가상환경 비활성화
+conda deactivate
+
+- 가상환경 목록 확인
+conda env list
+conda info --envs
+
+- 가상환경 삭제(ex) django)
+conda remove -n django --all
+conda remove --name django --all
+
+
+cf)
+* VS code - [Extensions]
+[python 검색]
+Python, Pylance
+
+[django 검색]
+Django
+Django Snippets
+Django Template
+
+* 데이터베이스 툴 설치
+1) HeidiSQL
+2) DB Browser for SQLite
+=> installer 64비트 버전으로
+
+
+## django cli
+
+- 장고 설치
+pip install django
+cf) Anaconda Prompt(anaconda3)에서는 conda install django
+cf) 아나콘다와 파이썬 둘 다 설치가 된 경우 문제가 발생할 수도 있다.
+	- 아나콘다 설치 시 환경변수 추가 옵션에 체크를 안 하면 꽤 많은 문제가 발생할 수 있다.
+	- 문제점1: VS Code에서 Terminal 사용 시 오류
+	- 해결책1: VS Code에서 + 옆에 ∨(drop down) - Command Prompt를 클릭하면,
+		아나콘다 프롬프트와 똑같이 " (base) C:\django\tutorial > " base 가상환경이 잡힌다.
+
+	- 문제점2: mkdir tutorial 액세스 거부
+	- 해결책2: 아나콘다 프롬프트를 관리자 권한으로 열기
+
+- 설치 확인 명령어(ex) django)
+conda list |(파이프라인) findstr django
+
+- 프로젝트 생성 명령어
+django-admin startproject config .
+
+- VS Code 실행 명령어
+code .
+
+- 장고 실행
+python manage.py runserver
+cf) 터미널이 멈추는 상태가 된다. 이를 벗어날 때에는 ctrl+c를 누른다.
+
+- 프로젝트 내 기능을 담당하는 module을 생성(ex) member)
+django-admin startapp member
+
+- models.py에 model 생성 후
+python manage.py makemigrations     cf) Table로 생성될 내용을 정리하는 명령어
+python manage.py migrate            cf) 정리된 내용을 실제 DB에 반영하는 명령어
+
+- 관리자 사이트 생성
+python manage.py createsuperuser
+cf) 이름, 이메일, 비밀번호를 입력하면 http://127.0.0.1:8000/admin/ 에 로그인할 수 있다.
+
+- 가상환경에 설치한 라이브러리 추출
+pip freeze > requirements.txt
+
+- 프로젝트 실행 시 필요한 라이브러리 설치
+pip install -r requirements.txt
+
+
+cf)
+* VS Code 단축키
+Ctrl + p : 파일열기
+Shift + Alt + 방향키(아래쪽) : 복사
+Ctrl + / : 주석처리
+Ctrl + + / Ctrl + - : 글자 크게 / 작게
