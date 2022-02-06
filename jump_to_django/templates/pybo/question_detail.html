@@ -1,3 +1,6 @@
+{% load static %}  {% comment %} 스타일시트와 같은 스태틱 파일을 사용하기 위해서 해당 태그 삽입 {% endcomment %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
 <h1>{{ question.subject }}</h1>
 
 <div>
