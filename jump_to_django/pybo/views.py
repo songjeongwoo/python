@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .models import Question
+from .forms import QuestionForm, AnswerForm
 
 def index(request):
     '''
@@ -30,9 +31,42 @@ def answer_create(request, question_id):
     pybo 답변등록
     '''
     question = get_object_or_404(Question, pk=question_id)
+    '''
+    수정 전 코드
     # Question과 Answer 모델은 서로 ForeignKey 로 연결되어 있기때문에 question.answer_set.create()처럼 사용할 수 있다.
     question.answer_set.create(content=request.POST.get('content'), create_date=timezone.now())
     # 또는 아래처럼도 가능하다.
     # answer = Answer(question=question, content=request.POST.get('content'), create_date=timezone.now())
     # answer.save()
     return redirect('pybo:detail', question_id=question.id)
+    '''
+    if request.method == "POST":
+        form = AnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.create_date = timezone.now()
+            answer.question = question
+            answer.save()
+            return redirect('pybo:detail', question_id=question.id)
+    else:  # 사실 답변 등록은 POST 방식만 사용되기 때문에 if .. else 구문에서 else는 호출되지 않는다. 다만, 여기에서는 패턴의 통일성을 위해 남겨 두었다.
+        form = AnswerForm()
+    context = {'question': question, 'form': form}
+    return render(request, 'pybo/question_detail.html', context)
+
+
+def question_create(request):
+    '''
+    pybo 질문등록
+    '''
+    if request.method == 'POST':
+        # request.POST를 인수로 QuestionForm을 생성할 경우에는 request.POST에 담긴 subject, content 값이 QuestionForm의 subject, content 속성에 자동으로 저장되어 객체가 생성된다.
+        form = QuestionForm(request.POST)
+        if form.is_valid():  # form에 저장된 subject, content의 값이 올바르지 않다면 form에는 오류 메시지가 저장되고 form.is_valid()가 실패하여 다시 질문 등록 화면으로 돌아간다.
+            question = form.save(commit=False) # QuestionForm이 Question 모델과 연결된 모델 폼이기 때문에 이와 같이 사용할 수 있다. 여기서 commit=False는 임시 저장을 의미한다.
+            question.create_date = timezone.now()
+            question.save()
+            return redirect('pybo:index')
+    else:
+        form = QuestionForm()
+    context = {'form': form}
+    return render(request, 'pybo/question_form.html', context)
