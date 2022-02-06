@@ -1,11 +1,33 @@
-{% if question_list %}
-    <ul>
-    {% for question in question_list %}
-        {% comment %} <li><a href="{%/pybo/{{ question.id }}/%}">{{ question.subject }}</a></li> {% endcomment %}
-        {% comment %} url 별칭 사용 {% endcomment %}
-        <li><a href="{% url 'pybo:detail' question.id %}">{{ question.subject }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>질문이 없습니다.</p>
-{% endif %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+<div class="container my-3">
+    <table class="table">
+        <thead>
+            <tr class="thead-dark">
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성일시</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% if question_list %}
+            {% for question in question_list %}
+            <tr>
+                {% comment %} forloop.counter: for 문의 현재 순서를 의미 {% endcomment %}
+                <td>{{ forloop.counter }}</td>
+                <td>
+                {% comment %} <li><a href="{%/pybo/{{ question.id }}/%}">{{ question.subject }}</a></li> {% endcomment %}
+                {% comment %} url 별칭 사용 {% endcomment %}
+                    <a href="{% url 'pybo:detail' question.id %}">{{ question.subject }}</a>
+                </td>
+                <td>{{ question.create_date }}</td>
+            <tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="3">질문이 없습니다.</td>
+            </tr>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
