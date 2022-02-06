@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
 from .models import Question
 
 def index(request):
@@ -23,3 +24,15 @@ def detail(request, question_id):
 
 
 # 제네릭 뷰는 추후에
+
+def answer_create(request, question_id):
+    '''
+    pybo 답변등록
+    '''
+    question = get_object_or_404(Question, pk=question_id)
+    # Question과 Answer 모델은 서로 ForeignKey 로 연결되어 있기때문에 question.answer_set.create()처럼 사용할 수 있다.
+    question.answer_set.create(content=request.POST.get('content'), create_date=timezone.now())
+    # 또는 아래처럼도 가능하다.
+    # answer = Answer(question=question, content=request.POST.get('content'), create_date=timezone.now())
+    # answer.save()
+    return redirect('pybo:detail', question_id=question.id)
