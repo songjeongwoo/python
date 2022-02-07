@@ -12,9 +12,19 @@
     <title>Hello, pybo!</title>
 </head>
 <body>
+    <!-- include를 사용해 navbar.html을 삽입한다. -->
+    {% include "navbar.html" %}
+    
     <!-- 기본 템플릿 안에 삽입될 내용 Start -->
     {% block content %}
     {% endblock %}
     <!-- 기본 템플릿 안에 삽입될 내용 End -->
+
+    <!-- 네비게이션바의 햄버거 메뉴 버튼(navbar.html)이 반응하려면 부트스트랩 자바스크립트 파일이 필요하다.
+            cf) bootstrap.min.js 는 jquery-3.4.1.min.js를 필요로 하므로 jquery-3.4.1.min.js를 먼저 적어주어야 한다. -->
+    <!-- jQuery JS -->
+    <script src="{% static 'jquery-3.6.0.min.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'bootstrap.min.js' %}"></script>
 </body>
 </html>
