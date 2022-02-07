@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-3">
+    <form method="post" class="post-form" action="{% url 'common:login' %}">
+        {% csrf_token %}
+        {% include "form_errors.html" %}
+        <!-- 사용자ID를 의미하는 username과 비밀번호를 의미하는 password 항목은 django.contrib.auth 앱이 요구하는 하는 필수항목이다. -->
+        <div class="form-group">
+            <label for="username">사용자ID</label>
+            <input type="text" class="form-control" name="username" id="username"
+                value="{{ form.username.value|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호</label>
+            <input type="password" class="form-control" name="password" id="password"
+                value="{{ form.password.value|default_if_none:'' }}">
+        </div>
+        <button type="submit" class="btn btn-primary">로그인</button>
+    </form>
+</div>
+{% endblock %}
+
+<!-- 로그인이 성공하면 django.contrib.auth 패키지는 디폴트로 /accounts/profile/ 라는 URL로 이동시킨다.
+        다만 /accounts/profile/ URL은 현재 우리가 파이보에 구성한 것과 맞지 않으므로 로그인 성공 시 / 페이지로 이동할 수 있도록 config/settings.py 파일을 수정하자.
+        마지막 줄에 LOGIN_REDIRECT_URL을 추가하면 된다. -->
