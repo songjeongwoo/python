@@ -1,4 +1,4 @@
-{% extends 'base.html' %}  {% comment %} base.html 상속 {% endcomment %}
+{% extends 'base.html' %}  <!-- base.html 상속 -->
 {% load pybo_filter %} <!-- sub필터 사용을 위해 pybo_filter 로드 -->
 {% block content %}
 <div class="container my-3">
@@ -20,8 +20,11 @@
                 </td>
                 <td>
                 {% comment %} <li><a href="{%/pybo/{{ question.id }}/%}">{{ question.subject }}</a></li> {% endcomment %}
-                {% comment %} url 별칭 사용 {% endcomment %}
+                    <!-- url 별칭 사용 -->
                     <a href="{% url 'pybo:detail' question.id %}">{{ question.subject }}</a>
+                    {% if question.answer_set.count > 0 %}  <!-- 답변 개수 표시 -->
+                        <span class="text-danger small ml-2">{{ question.answer_set.count }}</span>
+                    {% endif %}
                 </td>
                 <td>{{ question.create_date }}</td>
             <tr>
