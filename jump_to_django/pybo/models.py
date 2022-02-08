@@ -1,6 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Question(models.Model):
+    # User모델은 django.contrib.auth앱이 제공하는 사용자 모델이다. cf) author 속성 추가 후 makemigrations를 하면 오류 - 해결방법: https://wikidocs.net/71306
+    author = models.ForeignKey(User, on_delete=models.CASCADE)  # author 속성에 저장해야 하는 사용자 객체는 로그인 후 request 객체를 통해 얻을 수 있다.
     subject = models.CharField(max_length=200)
     content = models.TextField()
     create_date = models.DateTimeField()
@@ -10,6 +13,7 @@ class Question(models.Model):
         # <Question: Question object (1)>를 <Question: pybo가 무엇인가요?>로 출력되게 해줌
 
 class Answer(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)  # Question의 author 설명과 동일
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     content = models.TextField()
     create_date = models.DateTimeField()

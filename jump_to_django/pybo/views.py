@@ -3,6 +3,7 @@ from django.utils import timezone
 from .models import Question
 from .forms import QuestionForm, AnswerForm
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     '''
@@ -39,6 +40,8 @@ def detail(request, question_id):
 
 # 제네릭 뷰는 추후에
 
+# request.user를 사용하는 함수에 @login_required 데코레이터를 사용해야 한다.
+@login_required(login_url='common:login')  # 로그아웃 상태에서 호출되면 자동으로 로그인 화면으로 이동시킨다.
 def answer_create(request, question_id):
     '''
     pybo 답변등록
@@ -57,6 +60,7 @@ def answer_create(request, question_id):
         form = AnswerForm(request.POST)
         if form.is_valid():
             answer = form.save(commit=False)
+            answer.author = request.user  # author 속성에 로그인 계정 저장  # request.user는 현재 로그인한 계정의 User 모델 객체
             answer.create_date = timezone.now()
             answer.question = question
             answer.save()
@@ -67,6 +71,7 @@ def answer_create(request, question_id):
     return render(request, 'pybo/question_detail.html', context)
 
 
+@login_required(login_url='common:login')
 def question_create(request):
     '''
     pybo 질문등록
@@ -76,6 +81,7 @@ def question_create(request):
         form = QuestionForm(request.POST)
         if form.is_valid():  # form에 저장된 subject, content의 값이 올바르지 않다면 form에는 오류 메시지가 저장되고 form.is_valid()가 실패하여 다시 질문 등록 화면으로 돌아간다.
             question = form.save(commit=False) # QuestionForm이 Question 모델과 연결된 모델 폼이기 때문에 이와 같이 사용할 수 있다. 여기서 commit=False는 임시 저장을 의미한다.
+            question.author = request.user  # author 속성에 로그인 계정 저장
             question.create_date = timezone.now()
             question.save()
             return redirect('pybo:index')
