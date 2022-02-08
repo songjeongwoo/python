@@ -7,6 +7,7 @@ class Question(models.Model):
     subject = models.CharField(max_length=200)
     content = models.TextField()
     create_date = models.DateTimeField()
+    modify_date = models.DateTimeField(null=True, blank=True)  # blank=True는 form.is_valid()를 통한 입력 데이터 검사 시 값이 없어도 된다는 의미
 
     def __str__(self):
         return self.subject
@@ -17,6 +18,7 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     content = models.TextField()
     create_date = models.DateTimeField()
+    modify_date = models.DateTimeField(null=True, blank=True)  # blank=True는 form.is_valid()를 통한 입력 데이터 검사 시 값이 없어도 된다는 의미
 
     # 장고에서 사용하는 속성(Field) 타입: https://docs.djangoproject.com/en/3.0/ref/models/fields/#field-types
 
