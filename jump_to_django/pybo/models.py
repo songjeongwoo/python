@@ -22,6 +22,15 @@ class Answer(models.Model):
 
     # 장고에서 사용하는 속성(Field) 타입: https://docs.djangoproject.com/en/3.0/ref/models/fields/#field-types
 
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    create_date = models.DateTimeField()
+    modify_date = models.DateTimeField(null=True, blank=True)
+    question = models.ForeignKey(Question, null=True, blank=True, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, null=True, blank=True, on_delete=models.CASCADE)
+    # 만약 질문에 댓글이 작성될 경우에는 question에 값이 저장되고 답변에 댓글이 작성될 경우에는 answer에 값이 저장될 것이다.
+    # 따라서 댓글 모델의 question 또는 answer 둘 중에 하나에만 값이 저장되므로 두 개의 속성은 모두 null=True, blank=True 를 설정해야 한다.
 
 '''
 # 장고 셸 실행
