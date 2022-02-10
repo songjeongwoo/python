@@ -3,23 +3,28 @@ from django.contrib.auth.models import User
 
 class Question(models.Model):
     # User모델은 django.contrib.auth앱이 제공하는 사용자 모델이다. cf) author 속성 추가 후 makemigrations를 하면 오류 - 해결방법: https://wikidocs.net/71306
-    author = models.ForeignKey(User, on_delete=models.CASCADE)  # author 속성에 저장해야 하는 사용자 객체는 로그인 후 request 객체를 통해 얻을 수 있다.
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_question')  # author 속성에 저장해야 하는 사용자 객체는 로그인 후 request 객체를 통해 얻을 수 있다.
     subject = models.CharField(max_length=200)
     content = models.TextField()
     create_date = models.DateTimeField()
     modify_date = models.DateTimeField(null=True, blank=True)  # blank=True는 form.is_valid()를 통한 입력 데이터 검사 시 값이 없어도 된다는 의미
+    voter = models.ManyToManyField(User, related_name='voter_question')  # 추천인 추가
+    #  related_name속성을 안 쓰면 Question 모델에서 사용한 author와 voter가 모두 User 모델과 연결되어 있기 때문에 User.question_set를 쓸 때 기준을 뭘로 할 지 명확하지 않아서 에러
+    #  특정 사용자가 작성한 질문을 얻기 위해서는 some_user.author_question.all() 처럼 사용
+    #  마찬가지로 특정 사용자가 투표한 질문을 얻기 위해서는 some_user.voter_question.all() 처럼 사용(some_user는 특정 사용자를 의미)
 
     def __str__(self):
         return self.subject
         # <Question: Question object (1)>를 <Question: pybo가 무엇인가요?>로 출력되게 해줌
 
 class Answer(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True)  # Question의 author 설명과 동일
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_answer')  # Question의 author 설명과 동일
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     content = models.TextField()
     create_date = models.DateTimeField()
     modify_date = models.DateTimeField(null=True, blank=True)  # blank=True는 form.is_valid()를 통한 입력 데이터 검사 시 값이 없어도 된다는 의미
-
+    voter = models.ManyToManyField(User, related_name='voter_answer')
+    
     # 장고에서 사용하는 속성(Field) 타입: https://docs.djangoproject.com/en/3.0/ref/models/fields/#field-types
 
 class Comment(models.Model):
