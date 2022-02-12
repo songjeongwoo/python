@@ -11,6 +11,7 @@ git init 폴더명
 
 - add 명령어 (ex) example.txt)
 *git add example.txt
+*git add *
 
 - commit 명령어 (ex) commit message)
 *git commit -m "commit message"
