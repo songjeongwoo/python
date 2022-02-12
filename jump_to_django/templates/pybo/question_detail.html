@@ -50,6 +50,7 @@
                     {% if question.comment_set.count > 0 %}
                         <div class="mt-3">
                         {% for comment in question.comment_set.all %}  <!-- 등록한 댓글을 출력 -->
+                            <a name="comment_{{ comment.id }}"></a> <!-- 질문 댓글 앵커 -->
                             <div class="comment py-2 text-muted">  <!-- 댓글 각각에 comment 스타일 지정 -->
                                 <span style="white-space: pre-line;">{{ comment.content }}</span>
                                 <span>
@@ -78,6 +79,7 @@
     </div>
     <h5>{{ question.answer_set.count }}개의 답변이 있습니다.</h5>
     {% for answer in question.answer_set.all %}
+    <a name="answer_{{ answer.id }}"></a> <!-- 이 HTML을 호출하는 URL 뒤에 #answer_answer.id를 붙여주면 해당 앵커(여기)로 스크롤이 이동된다.-->
     <div class="row my-3">
         <div class="col-1">  <!-- 추천영역 -->
             <div class="bg-light text-center p-3 border font-weight-bolder mb-1">{{answer.voter.count}}</div>
@@ -108,9 +110,11 @@
                                 data-uri="{% url 'pybo:answer_delete' answer.id  %}">삭제</a>
                         </div>
                     {% endif %}
+                    <!-- 답변 댓글 Start -->
                     {% if answer.comment_set.count > 0 %}
                         <div class="mt-3">
                             {% for comment in answer.comment_set.all %}
+                            <a name="comment_{{ comment.id }}"></a> <!-- 답변 댓글 앵커 -->
                                 <div class="comment py-2 text-muted">
                                     <span style="white-space: pre-line;">{{ comment.content }}</span>
                                     <span>
@@ -132,6 +136,7 @@
                         <a href="{% url 'pybo:comment_create_answer' answer.id %}"
                             class="small"><small>댓글 추가 ..</small></a>
                     </div>
+                    <!-- 답변 댓글 End -->
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, resolve_url
 from django.utils import timezone
 
 from ..forms import AnswerForm
@@ -30,7 +30,8 @@ def answer_create(request, question_id):
             answer.create_date = timezone.now()
             answer.question = question
             answer.save()
-            return redirect('pybo:detail', question_id=question.id)
+            return redirect('{}#answer_{}'.format(
+                resolve_url('pybo:detail', question_id=question.id), answer.id))  # pybo:detail에 해당하는 HTML 중 answer_answer.id 앵커로 이동한다.
     else:  # 사실 답변 등록은 POST 방식만 사용되기 때문에 if .. else 구문에서 else는 호출되지 않는다. 다만, 여기에서는 패턴의 통일성을 위해 남겨 두었다.
         form = AnswerForm()
     context = {'question': question, 'form': form}
@@ -52,7 +53,8 @@ def answer_modify(request, answer_id):
             answer = form.save(commit=False)
             answer.modify_date = timezone.now()
             answer.save()
-            return redirect('pybo:detail', question_id=answer.question.id)
+            return redirect('{}#answer_{}'.format(
+                resolve_url('pybo:detail', question_id=answer.question.id), answer.id))  # pybo:detail에 해당하는 HTML 중 answer_answer.id 앵커로 이동한다.
     else:
         form = AnswerForm(instance=answer)
     context = {'answer': answer, 'form': form}
