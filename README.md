@@ -10,3 +10,7 @@
 ### 3. jump_to_django
 - KT-aivle 1기 1차 미니프로젝트 때 django에 대한 지식이 부족하다고 판단하여 시작<br>
 출처: https://wikidocs.net/book/4223
+
+### 4. 혼자 공부하는 머신러닝+딥러닝
+- ML과 DL에 대해 aivle수업 복습 겸 더 공부하고 싶어서 스터디원들과 시작<br>
+출처: https://www.youtube.com/watch?v=J6wehCO_c58&list=PLVsNizTWUw7HpqmdphX9hgyWl15nobgQX
