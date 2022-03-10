@@ -1,7 +1,7 @@
 + ## KT AIVLE을 들으며 부족한 부분 채우는 저장소
 
 ### 1. basic
-- 스터디(파이썬, songjeongwoo/aivle-study 저장소) 또는 스터디(알고리즘, https://github.com/algorithm-studying/daily) 중,<br>몰랐던 파이썬 문법 또는 함수 등에 대한 기록
+- 스터디(파이썬, https://github.com/songjeongwoo/aivle-study) 또는 스터디(알고리즘, https://github.com/algorithm-studying/daily) 중,<br>몰랐던 파이썬 문법 또는 함수 등에 대한 기록
 
 ### 2. algorithm
 - 스터디(파이썬)에서 파이썬 기본을 다지고 알고리즘을 공부해야겠단 생각에 시작<br>
